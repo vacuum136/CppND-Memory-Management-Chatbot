@@ -98,7 +98,6 @@ ChatBot& ChatBot::operator=(ChatBot &&chatbot){
         return *this;
     }
 
-    //delete _image;
     _image = chatbot._image;
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
