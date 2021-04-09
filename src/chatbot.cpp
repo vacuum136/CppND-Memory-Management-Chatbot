@@ -42,19 +42,21 @@ ChatBot::~ChatBot()
     }
 }
 
-//// STUDENT CODE
-////
 // copy constructor
 ChatBot::ChatBot(const ChatBot &chatbot){
     std::cout << "ChatBot Copy Constructor" << std::endl;
     
-    _image = chatbot._image;
+    // deep copy of _image
+    _image = new wxBitmap();
+    *_image = *chatbot._image;
+
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
 }
 
-// copy assignment
+// copy assignment operator
 ChatBot& ChatBot::operator=(const ChatBot &chatbot){
     std::cout << "ChatBot Copy Assignment Operator" << std::endl;
     
@@ -62,10 +64,12 @@ ChatBot& ChatBot::operator=(const ChatBot &chatbot){
         return *this;
     }
     
-    _image = chatbot._image;
+    delete _image;
+    *_image = *chatbot._image;
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     
     return *this;
 }
@@ -86,7 +90,7 @@ ChatBot::ChatBot(ChatBot &&chatbot){
     chatbot._chatLogic = nullptr;
 }
 
-// move assignment
+// move assignment operator
 ChatBot& ChatBot::operator=(ChatBot &&chatbot){
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
     
@@ -108,8 +112,6 @@ ChatBot& ChatBot::operator=(ChatBot &&chatbot){
 
     return *this;
 }
-////
-//// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
